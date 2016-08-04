@@ -1,0 +1,55 @@
+{
+          "excludeFiles": [
+                "node_modules/**",
+                "node-jscs/**",
+                "src/**/package.js",
+                "gulpfile.js"
+          ],
+          "plugins": ["jscs-jsdoc"],
+          "jsDoc": {
+                "enforceExistence": true,
+                "checkAnnotations": {
+                        "preset": "closurecompiler",
+                        "extra": {
+                                "api": true,
+                                "apiDefine": true,
+                                "apiDescription": true,
+                                "apiError": true,
+                                "apiErrorExample": true,
+                                "apiExample": true,
+                                "apiGroup": true,
+                                "apiHeader": true,
+                                "apiHeaderExample": true,
+                                "apiIgnore": true,
+                                "apiName": true,
+                                "apiParam": true,
+                                "apiParamExample": true,
+                                "apiPermission": true,
+                                "apiSampleRequest": true,
+                                "apiSuccess": true,
+                                "apiSuccessExample": true,
+                                "apiUse": true,
+                                "apiVersion": true,
+                                "instance": true,
+                                "memberof": true,
+                                "todo": true
+                        }
+                },
+                "checkParamNames": true,
+                "requireParamTypes": true,
+                "checkRedundantParams": true,
+                "checkReturnTypes": true,
+                "checkRedundantReturns": true,
+                "checkParamExistence": true,
+                "requireReturnTypes": true,
+                "checkTypes": true,
+                "checkRedundantAccess": "enforceLeadingUnderscore",
+                "requireNewlineAfterDescription": true,
+                "leadingUnderscoreAccess": true,
+                "requireDescriptionCompleteSentence": true,
+                "requireHyphenBeforeDescription": true,
+                "requireParamDescription": true,
+                "requireReturnDescription": true
+          }
+
+}
