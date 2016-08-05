@@ -6,12 +6,15 @@ language_tabs:
   - javascript
 
 toc_footers:
+  - <a href='https://edumaps.com#register'>Sign up for an account</a>
+  - a <a href='http://marketlayer.com'>marketlayer</a> platform
 
 includes:
   - introduction
-  - api
-  - integrations
+  - user
+  - authentication
   - errors
+  - notes
 
 search: true
 ---

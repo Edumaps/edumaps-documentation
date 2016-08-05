@@ -1,7 +1,7 @@
 # Introduction
 
-Welcome to the the Edumaps API! You can use our API to access Edumaps API endpoints, which can get information on various resources in our database.
+Welcome to the Edumaps API! You can use the API to access Edumaps data, which can get fetch information on various resources within the Edumaps database.
 
-We have language bindings in Shell only! The Edumaps API is purely a RESTful api service.
+Edumaps API has language bindings in Shell only! The Edumaps API is purely a RESTful api service with external integrations hooked in.
 
-You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+You can view code examples in the dark area to the right.

@@ -41,6 +41,8 @@
             <div id="toc"></div>
 
             <ul class="toc-footer">
+                    <li><a href='https://edumaps.com#register'>Sign up for an account</a></li>
+                    <li>a <a href='http://marketlayer.com'>marketlayer</a> platform</li>
             </ul>
         </div>
 
@@ -49,106 +51,301 @@
 
             <div class="content">
                 <h1 id="introduction">Introduction</h1>
-<p>Welcome to the the Edumaps API! You can use our API to access Edumaps API endpoints, which can get information on various resources in our database.</p>
-<p>We have language bindings in Shell only! The Edumaps API is purely a RESTful api service.</p>
-<p>You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
-<h1 id="api">API</h1>
-<h2 id="authentication">Authentication</h2>
-<pre class="highlight bash"><code><span class="hljs-comment"># With shell, you can just pass the correct header with each request</span>
-curl <span class="hljs-string">"&lt;-- endpoint-url-here --&gt;"</span>
-  -H <span class="hljs-string">"Authorization: q2sdaadsfsdf90qsqsqkjfds!dfewqkjr2344e5"</span>
-</code></pre>
-<pre class="highlight javascript"><code>
-</code></pre>
-<blockquote>
-<p>Make sure to replace <code>q2sdaadsfsdf90qsqsqkjfds!dfewqkjr2344e5</code> with your API key.</p>
-</blockquote>
-<p>Edumaps uses API keys to allow access to the API. You can register a new Edumaps API key at our <a href="http://example.com/developers">developer portal</a>.</p>
-<p>Edumaps expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-<p><code>Authorization: q2sdaadsfsdf90qsqsqkjfds!dfewqkjr2344e5</code></p>
-<aside class="notice">
-You must replace <code>q2sdaadsfsdf90qsqsqkjfds!dfewqkjr2344e5</code> with your personal API key.
+<p>Welcome to the Edumaps API! You can use the API to access Edumaps data, which can get fetch information on various resources within the Edumaps database.</p>
+<p>Edumaps API has language bindings in Shell only! The Edumaps API is purely a RESTful api service with external integrations hooked in.</p>
+<p>You can view code examples in the dark area to the right.</p>
+<h1 id="user">User</h1>
+<h2 id="registration">Registration</h2>
+<aside class="endpoint">
+        <code>POST</code> /signup
 </aside>
 
-<h1 id="integrations">Integrations</h1>
-<h2 id="get-all-integrations">Get All Integrations</h2>
-<pre class="highlight bash"><code>curl <span class="hljs-string">"http://example.com/api/integrations"</span>
-  -H <span class="hljs-string">"Authorization: q2sdaadsfsdf90qsqsqkjfds!dfewqkjr2344e5&lt;"</span>
+
+<pre class="highlight bash"><code><span class="hljs-comment"># This is the call to authenticate a user</span>
+curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
+        -H <span class="hljs-string">"Accept: application/json"</span>
+        -H <span class="hljs-string">"Content-Type: application/json"</span>
+        <span class="hljs-_">-d</span> <span class="hljs-string">"email: &lt;-- user's email address --&gt;"</span>
+        <span class="hljs-_">-d</span> <span class="hljs-string">"password: &lt;-- user's password --&gt;"</span>
 </code></pre>
-<pre class="highlight javascript"><code>
+<pre class="highlight json"><code>
+{
+        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"&lt;-- user id --&gt;"</span>,
+        <span class="hljs-attr">"email"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
+        <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+        <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+        <span class="hljs-attr">"belongsTo"</span>: [... &lt;-- array of organisation domains that user is associated to --&gt;],
+        <span class="hljs-attr">"integrations"</span>: [... &lt;-- array of services that user has enabled --&gt;]
+        ...
+}
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Above is the typical response you will get after user registration.</p>
 </blockquote>
-<pre class="highlight json"><code>[
-  {
-    <span class="hljs-attr">"id"</span>: <span class="hljs-number">1</span>,
-    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Uploader"</span>
-  },
-  {
-    <span class="hljs-attr">"id"</span>: <span class="hljs-number">2</span>,
-    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Parser"</span>
-  }
-]
-</code></pre>
-<p>This endpoint retrieves all available integrations.</p>
-<h3 id="http-request">HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id="query-parameters">Query Parameters</h3>
+<aside class="info">
+        Please note, this endpoint is due to change to require users to verify (double opt-in) theirt email address
+</aside>
+
+
+<h3 id="header-options">Header Options</h3>
 <table>
 <thead>
 <tr>
-<th>Parameter</th>
-<th>Default</th>
+<th></th>
+<th>Required</th>
+<th>Expected Value</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>include_all</td>
-<td>false</td>
-<td>If set to true, the result will also include all third-party integrations.</td>
+<td><code>Accept</code></td>
+<td><code class="required"></code></td>
+<td>&quot;application/json&quot;</td>
+<td></td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include integrations that have already been enabled by the authenticated user.</td>
+<td><code>Content-Type</code></td>
+<td><code class="required"></code></td>
+<td>&quot;application/json&quot;</td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<aside class="success">
-Remember — a happy user is an authenticated user!
-</aside>
-
-<h2 id="get-a-specific-integratation">Get a Specific Integratation</h2>
-<pre class="highlight bash"><code>curl <span class="hljs-string">"http://example.com/api/integrations/2"</span>
-  -H <span class="hljs-string">"Authorization: q2sdaadsfsdf90qsqsqkjfds!dfewqkjr2344e5&lt;"</span>
-</code></pre>
-<pre class="highlight javascript"><code>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json"><code>{
-  <span class="hljs-attr">"id"</span>: <span class="hljs-number">2</span>,
-  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Parser"</span>
-}
-</code></pre>
-<p>This endpoint retrieves a specific integration.</p>
-<h3 id="http-request">HTTP Request</h3>
-<p><code>GET http://example.com/integration/&lt;ID&gt;</code></p>
-<h3 id="url-parameters">URL Parameters</h3>
+<h3 id="payload-options">Payload Options</h3>
 <table>
 <thead>
 <tr>
-<th>Parameter</th>
+<th></th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the integration to retrieve</td>
+<td><code>email</code></td>
+<td><code class="required"></code></td>
+<td>Registered user&#39;s email address</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td><code class="required"></code></td>
+<td>Registered user&#39;s password</td>
+</tr>
+</tbody>
+</table>
+<h3 id="query-options">Query Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Required</th>
+<th>Possible Values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="authentication">Authentication</h1>
+<h2 id="login">login</h2>
+<aside class="endpoint">
+        <code>POST</code> /auth/login
+</aside>
+
+
+<pre class="highlight bash"><code><span class="hljs-comment"># This is the call to authenticate a user</span>
+curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
+        -H <span class="hljs-string">"Accept: application/json"</span>
+        -H <span class="hljs-string">"Content-Type: application/json"</span>
+        <span class="hljs-_">-d</span> <span class="hljs-string">"email: &lt;-- user's email address --&gt;"</span>
+        <span class="hljs-_">-d</span> <span class="hljs-string">"password: &lt;-- user's password --&gt;"</span>
+</code></pre>
+<pre class="highlight json"><code>
+{
+        <span class="hljs-attr">"token"</span>: <span class="hljs-string">"&lt;-- jwt hashed token --&gt;"</span>,
+        <span class="hljs-attr">"data"</span>: {
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"&lt;-- user id --&gt;"</span>,
+                <span class="hljs-attr">"email"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
+                <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+                <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+                <span class="hljs-attr">"belongsTo"</span>: [... &lt;-- array of organisation domains that user is associated to --&gt;],
+                <span class="hljs-attr">"integrations"</span>: [... &lt;-- array of services that user has enabled --&gt;]
+                ...
+        }
+}
+</code></pre>
+<blockquote>
+<p>Above is the typical response you will get after user authentication. Please note that the response may contain more data properties than what is shown</p>
+</blockquote>
+<p>Edumaps API uses <a href="https://jwt.io/">jwt</a> to provide access to user accounts and results from secured endpoints. The user authenticates by providing a username (typically their registered email address) and a password. Upon successful login a token is returned which is then used for all other endpoint calls.</p>
+<h3 id="header-options">Header Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Required</th>
+<th>Expected Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Accept</code></td>
+<td><code class="required"></code></td>
+<td>&quot;application/json&quot;</td>
+<td></td>
+</tr>
+<tr>
+<td><code>Content-Type</code></td>
+<td><code class="required"></code></td>
+<td>&quot;application/json&quot;</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="payload-options">Payload Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>email</code></td>
+<td><code class="required"></code></td>
+<td>Registered user&#39;s email address</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td><code class="required"></code></td>
+<td>Registered user&#39;s password</td>
+</tr>
+</tbody>
+</table>
+<h3 id="query-options">Query Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Required</th>
+<th>Possible Values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="token">token</h2>
+<aside class="endpoint">
+        <code>POST</code> /auth/token
+</aside>
+
+
+<pre class="highlight bash"><code><span class="hljs-comment"># This is the call to re-authenticate a user using a previous authenticated token</span>
+curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
+        -H <span class="hljs-string">"Accept: application/json"</span>
+        -H <span class="hljs-string">"Content-Type: application/json"</span>
+        -H <span class="hljs-string">"Authorisation: &lt;-- jwt token --&gt;"</span>
+</code></pre>
+<pre class="highlight json"><code>
+{
+        <span class="hljs-attr">"token"</span>: <span class="hljs-string">"&lt;-- a new jwt hashed token --&gt;"</span>,
+        <span class="hljs-attr">"data"</span>: {
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"&lt;-- user id --&gt;"</span>,
+                <span class="hljs-attr">"email"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
+                <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+                <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+                <span class="hljs-attr">"belongsTo"</span>: [... &lt;-- array of organisation domains that user is associated to --&gt;],
+                <span class="hljs-attr">"integrations"</span>: [... &lt;-- array of services that user has enabled --&gt;]
+                ...
+        }
+}
+</code></pre>
+<blockquote>
+<p>Above is the typical response you will get after user re-authentication using a token access. Please note that the response may contain more data properties than what is shown</p>
+</blockquote>
+<p>Edumaps API allows for token based access in order for users to allow third-party apps to log in and access the user data. This is not to be confused with oAuth permissions. It is also a means to re-authenticating and retriving the current user data of the user if this has been mutated in anyway since their last login. This endpoint can be used as a means to bypass requring the user to enter their credentials everytime.</p>
+<h3 id="header-options">Header Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Required</th>
+<th>Expected Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Accept</code></td>
+<td><code class="required"></code></td>
+<td>&quot;application/json&quot;</td>
+<td></td>
+</tr>
+<tr>
+<td><code>Content-Type</code></td>
+<td><code class="required"></code></td>
+<td>&quot;application/json&quot;</td>
+<td></td>
+</tr>
+<tr>
+<td><code>Authorisation</code></td>
+<td><code class="required"></code></td>
+<td>a jwt token</td>
+<td>a valid jwt token must be passed and this can be obtained from the fist time user login - see <a href="#login">login</a> for details</td>
+</tr>
+</tbody>
+</table>
+<h3 id="payload-options">Payload Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="query-options">Query Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Required</th>
+<th>Possible Values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -157,13 +354,13 @@ Remember — a happy user is an authenticated user!
 <p>Below is the typical structure of a JSON error response</p>
 </blockquote>
 <pre class="highlight json"><code>{
-        <span class="hljs-attr">"error"</span>: <span class="hljs-number">400</span>,
-        <span class="hljs-attr">"description"</span>: <span class="hljs-string">"Bad Request"</span>,
-        <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Missing parameters ID"</span>
+        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"NotFound"</span>,
+        <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Not Found"</span>,
+        <span class="hljs-attr">"code"</span>: <span class="hljs-number">404</span>,
+        <span class="hljs-attr">"className"</span>: <span class="hljs-string">"not-found"</span>,
+        <span class="hljs-attr">"errors"</span>: {}
 }
 </code></pre>
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside>
-
 <p>The Edumaps API uses the following error codes:</p>
 <table>
 <thead>
@@ -226,6 +423,19 @@ Remember — a happy user is an authenticated user!
 </tr>
 </tbody>
 </table>
+<h1 id="important-usage-notes">Important Usage Notes</h1>
+<h2 id="authentication">Authentication</h2>
+<h3 id="authentication">Authentication</h3>
+<p>Edumaps&#39; users are grouped into organisations depending on their domain login (their registered email address). Therefore, to access and mutate particular datasets it is important to remember that after successful authentication every subsequent call after login that is requires an authenticated user must also request with a header property <code>Organisation</code> that is a JSON Web Token of what was recieved during the initial authentication process.</p>
+<pre class="highlight bash"><code>curl <span class="hljs-string">"&lt;-- any endpoint that requires an authenticated user --&gt;"</span>
+        -H <span class="hljs-string">"Accept: application/json"</span>
+        -H <span class="hljs-string">"Content-Type: application/json"</span>
+        -H <span class="hljs-string">"Authorisation: &lt;-- jwt token --&gt;"</span>
+        -H <span class="hljs-string">"Organisation: &lt;-- jwt token --&gt;"</span>
+</code></pre>
+<blockquote>
+<p>Please note that the <code>Authorisation</code> token is also still required</p>
+</blockquote>
 
             </div>
 

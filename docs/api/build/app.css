@@ -1340,13 +1340,19 @@ body, td, textarea, input {
 
 .content h1 {
   font-size: 25px;
-  font-weight: 400;
   border: none;
-  text-transform: uppercase;
   background-color: transparent;
   background-image: none;
   color: #c72e53;
   border-top: 1px solid #dfe2e7; }
+
+.content h2 {
+  display: none; }
+
+.toc-footer li {
+  color: #9090aa !important; }
+  .toc-footer li a {
+    color: #c72e53 !important; }
 
 a {
   color: #c72e53; }
@@ -1374,3 +1380,29 @@ a {
     background-color: transparent; }
   .tocify-wrapper .toc-footer {
     border-top: 1px solid #dfe2e7; }
+
+.endpoint {
+  background: #bf9293 !important;
+  background: -webkit-linear-gradient(left, #C72E53, #bf9293) !important;
+  background: -o-linear-gradient(left, #C72E53, #bf9293) !important;
+  background: linear-gradient(to right, #C72E53, #bf9293) !important;
+  color: #fff;
+  text-shadow: none !important;
+  font-weight: 300;
+  font-size: 1.5rem; }
+  .endpoint code {
+    background-color: rgba(0, 0, 0, 0.25);
+    padding: 6px;
+    font-weight: 600; }
+
+code.required {
+  background-color: transparent;
+  color: #c72e53; }
+  code.required:before {
+    font-family: 'slate';
+    content: "\e606"; }
+
+.tocify-header:last-child li a {
+  background-color: #FFC300;
+  color: #fff !important;
+  font-weight: 600 !important; }
