@@ -30,6 +30,7 @@
 
 @include scrollbars(.5em, slategray);
 
+@import url(http://fonts.googleapis.com/css?family=Arimo:400,400italic,700,700italic);
 
 // Variables
 
@@ -42,7 +43,7 @@ $theme-color: #c72e53;
 ////////
 
 body, td, textarea, input {
-    font-family: Helvetica Neue, Open Sans, sans-serif;
+    font-family: "Helvetica Neue", HelveticaNeue, "TeX Gyre Heros", TeXGyreHeros, FreeSans, "Nimbus Sans L", "Liberation Sans", Arimo, Helvetica, Arial, sans-serif;
     line-height: 1.6;
     font-size: 11px;
 }
