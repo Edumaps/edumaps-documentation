@@ -452,6 +452,78 @@ curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
 <aside class="info">The above properties are just some of the properties that may be returned. Call the API endpoint to find and investigate the remaning properties that get returned</aside>
 
 
+<h1 id="institution">Institution</h1>
+<p>Currently, this endpoint is limited. It only allows internal calls to take place and creates a new organisation or returns an organisation based from user registration</p>
+<h2 id="create">Create</h2>
+<aside class="endpoint">
+        <code>POST</code> /institution
+</aside>
+
+<p>Use this endpoint to create a new organisation. If the organisation already exists it is simply returned.</p>
+<blockquote>
+<h3 id="-code-class-response-curl-code-request"><code class="response">CURL</code> Request</h3>
+</blockquote>
+<pre class="highlight bash"><code><span class="hljs-comment"># This is the call to authenticate a user</span>
+curl -X POST <span class="hljs-string">"&lt;-- endpoint here --&gt;/institution"</span>
+        -H <span class="hljs-string">"Accept: application/json"</span>
+        -H <span class="hljs-string">"Content-Type: application/json"</span>
+        <span class="hljs-_">-d</span> <span class="hljs-string">"email: &lt;-- user's email address --&gt;"</span>
+        <span class="hljs-_">-d</span> <span class="hljs-string">"domain: &lt;-- domain from user's email address --&gt;"</span>
+</code></pre>
+<aside class="request">Request</aside>
+
+<p>You must pass in the request body an <strong><code>email</code></strong> or a <strong><code>domain</code></strong>.</p>
+<h3 id="payload-options">Payload Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>email</code> or <code>domain</code></td>
+<td><code class="required"></code></td>
+<td>User&#39;s email address or a domain name</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<h3 id="-code-class-response-201-code-response"><code class="response">201</code> Response</h3>
+</blockquote>
+<pre class="highlight json"><code>
+{
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"&lt;-- organisation id --&gt;"</span>,
+                <span class="hljs-attr">"domain"</span>: <span class="hljs-string">"&lt;-- organisation unique domain name --&gt;"</span>,
+                <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+                <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>
+}
+</code></pre>
+<aside class="response">Response</aside>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_id</code></td>
+<td><strong>String</strong></td>
+<td>The ID of the newly created or returned organisation</td>
+</tr>
+<tr>
+<td><code>domain</code></td>
+<td><strong>String</strong></td>
+<td>The domain extracted from the email address or passed in via <code>domain</code> is now the unique reference of the new organisation</td>
+</tr>
+</tbody>
+</table>
 <h1 id="errors">Errors</h1>
 <blockquote>
 <p>Below is the typical structure of a JSON error response</p>

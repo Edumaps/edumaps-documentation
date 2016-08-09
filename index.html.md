@@ -13,6 +13,8 @@ includes:
   - user
   - user-registration
   - user-authentication
+  - institution
+  - institution-create
   - errors
   - notes
 
