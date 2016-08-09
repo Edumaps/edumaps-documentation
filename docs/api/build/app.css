@@ -1404,7 +1404,36 @@ code.required {
     font-family: 'slate';
     content: "\e606"; }
 
+code.response {
+  background-color: transparent;
+  color: #FFC300; }
+
 .tocify-header:last-child li a {
   background-color: #FFC300;
   color: #fff !important;
   font-weight: 600 !important; }
+
+aside.request, aside.response {
+  background: #dfe2e7;
+  text-shadow: none; }
+
+aside.warning.text {
+  background-color: transparent;
+  color: #c72e53;
+  text-shadow: none;
+  font-weight: 600; }
+
+.content table {
+  width: 47%;
+  display: table;
+  margin-left: 2em; }
+  .content table tbody td {
+    font-size: .8em;
+    vertical-align: middle; }
+    .content table tbody td strong {
+      font-size: 1.35em;
+      color: #c72e53; }
+    .content table tbody td code {
+      font-weight: 600;
+      padding: 0.3em 1.4em;
+      text-align: center; }

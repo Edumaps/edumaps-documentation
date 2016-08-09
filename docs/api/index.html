@@ -14,7 +14,7 @@
 
     <body class="index">
         <script type="text/javascript">
-            $('body').data('languages', ["bash","javascript"]);
+            $('body').data('languages', ["bash"]);
         </script>
 
         <a href="#" id="nav-button">
@@ -29,7 +29,6 @@
 
             <div class="lang-selector">
                     <a href="#" data-language-name="bash">bash</a>
-                    <a href="#" data-language-name="javascript">javascript</a>
             </div>
 
                 <div class="search">
@@ -55,12 +54,17 @@
 <p>Edumaps API has language bindings in Shell only! The Edumaps API is purely a RESTful api service with external integrations hooked in.</p>
 <p>You can view code examples in the dark area to the right.</p>
 <h1 id="user">User</h1>
+<p>Edumaps API uses <a href="https://jwt.io/">jwt</a> to provide access to user accounts and results from secured endpoints. The user authenticates by providing a username (typically their registered email address) and a password. Upon successful login a token is returned which can then be used for all other endpoint calls.</p>
 <h2 id="registration">Registration</h2>
 <aside class="endpoint">
         <code>POST</code> /signup
 </aside>
 
-
+<p>The <strong>signup</strong> endpoint allows users to register for access to the Edumaps service.</p>
+<p>This includes access to the main application, the API and any other services that may be deployed in future.</p>
+<blockquote>
+<h3 id="-code-class-response-curl-code-request"><code class="response">CURL</code> Request</h3>
+</blockquote>
 <pre class="highlight bash"><code><span class="hljs-comment"># This is the call to authenticate a user</span>
 curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
         -H <span class="hljs-string">"Accept: application/json"</span>
@@ -68,9 +72,143 @@ curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
         <span class="hljs-_">-d</span> <span class="hljs-string">"email: &lt;-- user's email address --&gt;"</span>
         <span class="hljs-_">-d</span> <span class="hljs-string">"password: &lt;-- user's password --&gt;"</span>
 </code></pre>
-<pre class="highlight json"><code>
-{
+<aside class="request">Request</aside>
+
+<h3 id="payload-options">Payload Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>email</code></td>
+<td><code class="required"></code></td>
+<td>Registered user&#39;s email address</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td><code class="required"></code></td>
+<td>Registered user&#39;s password</td>
+</tr>
+<tr>
+<td><code>redirect</code></td>
+<td></td>
+<td>If provided the acivation link sent to the user will contain a success redirect url that redirects the user to after successful activation</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<h3 id="-code-class-response-201-code-response"><code class="response">201</code> Response</h3>
+</blockquote>
+<pre class="highlight json"><code>{
+        <span class="hljs-attr">"activationEmailSent"</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">"data"</span>: {
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"&lt;-- user id --&gt;"</span>,
+                <span class="hljs-attr">"username"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
+                <span class="hljs-attr">"email"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
+                <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+                <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+                <span class="hljs-attr">"belongsTo"</span>: [... &lt;-- array of organisation domains that user is associated to --&gt;],
+                <span class="hljs-attr">"integrations"</span>: [... &lt;-- array of services that user has enabled --&gt;]
+                ...
+        }
+}
+</code></pre>
+<aside class="response">Response</aside>
+
+<p>An expected successful response should result in a <strong><code>201</code></strong> header response. The JSON response body will contain the following properties (only some are listed).</p>
+<h3 id="response-properties">Response Properties</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>activationEmailSent</code></td>
+<td><strong>Boolean</strong></td>
+<td>Confirmation that an activation email has been forwarded to the registered user</td>
+</tr>
+<tr>
+<td><code>data._id</code></td>
+<td><strong>String</strong></td>
+<td>The ID of the newly registered user</td>
+</tr>
+<tr>
+<td><code>data.username</code></td>
+<td><strong>String</strong></td>
+<td>The username of the user. <strong>This is currently automatically assigned the email address</strong></td>
+</tr>
+<tr>
+<td><code>data.email</code></td>
+<td><strong>String</strong></td>
+<td>The email address registered</td>
+</tr>
+<tr>
+<td><code>data.belongsTo</code></td>
+<td><strong>[Object]</strong></td>
+<td>An array of organisations that the user belongs to containing a <code>domain</code> and <code>domainId</code> key</td>
+</tr>
+<tr>
+<td><code>data.integrations</code></td>
+<td><strong>[Object]</strong></td>
+<td>An array of services/integrations that the user is able to access or has enabled. This lists out the ....</td>
+</tr>
+</tbody>
+</table>
+<h2 id="activation">Activation</h2>
+<aside class="endpoint">
+        <code>POST</code> /activate
+</aside>
+
+<p>The <strong>activate</strong> endpoint will allow users to activate their account after registration. This is <em><strong>required</strong></em> to gain access to the Edumaps API and Application.</p>
+<aside class="warning text">Note: This endpoint url is dynamic and almost always generated by the API. You should not have a need for this endpoint</aside>
+
+<blockquote>
+<h3 id="-code-class-response-curl-code-request"><code class="response">CURL</code> Request</h3>
+</blockquote>
+<pre class="highlight bash"><code>curl -X GET &lt;-- endpoint here --&gt;/activate?token=&lt;-- token here --&gt;
+</code></pre>
+<blockquote>
+<p>Remember to replace <code>&lt;-- token here --&gt;</code> with your own token</p>
+</blockquote>
+<aside class="request">Request</aside>
+
+<h3 id="query-options">Query Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>token</code></td>
+<td><code class="required"></code></td>
+<td>Required to activate the user account. This will be found in the activation email</td>
+</tr>
+<tr>
+<td><code>redirect</code></td>
+<td></td>
+<td>If provided the acivation will redirect to the page upon success otherwise a JSON of the user object is outputted instead</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<h3 id="-code-class-response-201-code-response"><code class="response">201</code> Response</h3>
+</blockquote>
+<pre class="highlight json"><code>{
         <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"&lt;-- user id --&gt;"</span>,
+        <span class="hljs-attr">"username"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
         <span class="hljs-attr">"email"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
         <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
         <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
@@ -80,86 +218,20 @@ curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
 }
 </code></pre>
 <blockquote>
-<p>Above is the typical response you will get after user registration.</p>
+<p>Above is the output for a successful user activation if no redirect parameter is provided</p>
 </blockquote>
-<aside class="info">
-        Please note, this endpoint is due to change to require users to verify (double opt-in) theirt email address
-</aside>
+<aside class="response">Response</aside>
 
-
-<h3 id="header-options">Header Options</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Required</th>
-<th>Expected Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Accept</code></td>
-<td><code class="required"></code></td>
-<td>&quot;application/json&quot;</td>
-<td></td>
-</tr>
-<tr>
-<td><code>Content-Type</code></td>
-<td><code class="required"></code></td>
-<td>&quot;application/json&quot;</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h3 id="payload-options">Payload Options</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>email</code></td>
-<td><code class="required"></code></td>
-<td>Registered user&#39;s email address</td>
-</tr>
-<tr>
-<td><code>password</code></td>
-<td><code class="required"></code></td>
-<td>Registered user&#39;s password</td>
-</tr>
-</tbody>
-</table>
-<h3 id="query-options">Query Options</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Required</th>
-<th>Possible Values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h1 id="authentication">Authentication</h1>
-<h2 id="login">login</h2>
+<p>A JSON is outputted or a redirect happens depending on the passed in parameters within the URL GET request</p>
+<h2 id="login">Login</h2>
 <aside class="endpoint">
         <code>POST</code> /auth/login
 </aside>
 
-
+<p>Use this endpoint to log in a user.</p>
+<blockquote>
+<h3 id="-code-class-response-curl-code-request"><code class="response">CURL</code> Request</h3>
+</blockquote>
 <pre class="highlight bash"><code><span class="hljs-comment"># This is the call to authenticate a user</span>
 curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
         -H <span class="hljs-string">"Accept: application/json"</span>
@@ -167,49 +239,9 @@ curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
         <span class="hljs-_">-d</span> <span class="hljs-string">"email: &lt;-- user's email address --&gt;"</span>
         <span class="hljs-_">-d</span> <span class="hljs-string">"password: &lt;-- user's password --&gt;"</span>
 </code></pre>
-<pre class="highlight json"><code>
-{
-        <span class="hljs-attr">"token"</span>: <span class="hljs-string">"&lt;-- jwt hashed token --&gt;"</span>,
-        <span class="hljs-attr">"data"</span>: {
-                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"&lt;-- user id --&gt;"</span>,
-                <span class="hljs-attr">"email"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
-                <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
-                <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
-                <span class="hljs-attr">"belongsTo"</span>: [... &lt;-- array of organisation domains that user is associated to --&gt;],
-                <span class="hljs-attr">"integrations"</span>: [... &lt;-- array of services that user has enabled --&gt;]
-                ...
-        }
-}
-</code></pre>
-<blockquote>
-<p>Above is the typical response you will get after user authentication. Please note that the response may contain more data properties than what is shown</p>
-</blockquote>
-<p>Edumaps API uses <a href="https://jwt.io/">jwt</a> to provide access to user accounts and results from secured endpoints. The user authenticates by providing a username (typically their registered email address) and a password. Upon successful login a token is returned which is then used for all other endpoint calls.</p>
-<h3 id="header-options">Header Options</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Required</th>
-<th>Expected Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Accept</code></td>
-<td><code class="required"></code></td>
-<td>&quot;application/json&quot;</td>
-<td></td>
-</tr>
-<tr>
-<td><code>Content-Type</code></td>
-<td><code class="required"></code></td>
-<td>&quot;application/json&quot;</td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<aside class="request">Request</aside>
+
+<p>You must pass in the request body <strong><code>email</code></strong> and <strong><code>password</code></strong>.</p>
 <h3 id="payload-options">Payload Options</h3>
 <table>
 <thead>
@@ -232,42 +264,15 @@ curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
 </tr>
 </tbody>
 </table>
-<h3 id="query-options">Query Options</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Required</th>
-<th>Possible Values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="token">token</h2>
-<aside class="endpoint">
-        <code>POST</code> /auth/token
-</aside>
-
-
-<pre class="highlight bash"><code><span class="hljs-comment"># This is the call to re-authenticate a user using a previous authenticated token</span>
-curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
-        -H <span class="hljs-string">"Accept: application/json"</span>
-        -H <span class="hljs-string">"Content-Type: application/json"</span>
-        -H <span class="hljs-string">"Authorisation: &lt;-- jwt token --&gt;"</span>
-</code></pre>
+<blockquote>
+<h3 id="-code-class-response-201-code-response"><code class="response">201</code> Response</h3>
+</blockquote>
 <pre class="highlight json"><code>
 {
-        <span class="hljs-attr">"token"</span>: <span class="hljs-string">"&lt;-- a new jwt hashed token --&gt;"</span>,
+        <span class="hljs-attr">"token"</span>: <span class="hljs-string">"&lt;-- jwt hashed token --&gt;"</span>,
         <span class="hljs-attr">"data"</span>: {
                 <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"&lt;-- user id --&gt;"</span>,
+                <span class="hljs-attr">"username"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
                 <span class="hljs-attr">"email"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
                 <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
                 <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
@@ -278,9 +283,80 @@ curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
 }
 </code></pre>
 <blockquote>
-<p>Above is the typical response you will get after user re-authentication using a token access. Please note that the response may contain more data properties than what is shown</p>
+<p>Above is the typical response you will get after a successful user authentication. Please note that the response may contain more data properties than what is shown and the user must have activated their account first</p>
+<h3 id="-code-class-response-401-code-response"><code class="response">401</code> Response</h3>
 </blockquote>
+<pre class="highlight json"><code>{
+        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"NotAuthenticated"</span>,
+        <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Not Activated"</span>,
+        <span class="hljs-attr">"code"</span>: <span class="hljs-number">401</span>,
+        <span class="hljs-attr">"className"</span>: <span class="hljs-string">"not-authenticated"</span>,
+        <span class="hljs-attr">"errors"</span>: {}
+}
+</code></pre>
+<aside class="response">Response</aside>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>token</code></td>
+<td><strong>String</strong></td>
+<td>The authenticated login token returned that can be used for all subsequent calls</td>
+</tr>
+<tr>
+<td><code>data._id</code></td>
+<td><strong>String</strong></td>
+<td>The ID of the newly registered user</td>
+</tr>
+<tr>
+<td><code>data.username</code></td>
+<td><strong>String</strong></td>
+<td>The username of the user. <strong>This is currently automatically assigned the email address</strong></td>
+</tr>
+<tr>
+<td><code>data.email</code></td>
+<td><strong>String</strong></td>
+<td>The email address registered</td>
+</tr>
+<tr>
+<td><code>data.belongsTo</code></td>
+<td><strong>[Object]</strong></td>
+<td>An array of organisations that the user belongs to containing a <code>domain</code> and <code>domainId</code> key</td>
+</tr>
+<tr>
+<td><code>data.integrations</code></td>
+<td><strong>[Object]</strong></td>
+<td>An array of services/integrations that the user is able to access or has enabled. This lists out the ....</td>
+</tr>
+</tbody>
+</table>
+<aside class="info">The above properties are just some of the properties that may be returned. Call the API endpoint to find and investigate the remaning properties that get returned</aside>
+
+<h2 id="token">Token</h2>
+<aside class="endpoint">
+        <code>POST</code> /auth/token
+</aside>
+
 <p>Edumaps API allows for token based access in order for users to allow third-party apps to log in and access the user data. This is not to be confused with oAuth permissions. It is also a means to re-authenticating and retriving the current user data of the user if this has been mutated in anyway since their last login. This endpoint can be used as a means to bypass requring the user to enter their credentials everytime.</p>
+<blockquote>
+<h3 id="-code-class-response-curl-code-request"><code class="response">CURL</code> Request</h3>
+</blockquote>
+<pre class="highlight bash"><code>        <span class="hljs-comment"># This is the call to re-authenticate a user using a previous authenticated token</span>
+
+        curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
+                -H <span class="hljs-string">"Accept: application/json"</span>
+                -H <span class="hljs-string">"Content-Type: application/json"</span>
+                -H <span class="hljs-string">"Authorisation: &lt;-- jwt token --&gt;"</span>
+</code></pre>
+<aside class="request">Request</aside>
+
 <h3 id="header-options">Header Options</h3>
 <table>
 <thead>
@@ -292,18 +368,6 @@ curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>Accept</code></td>
-<td><code class="required"></code></td>
-<td>&quot;application/json&quot;</td>
-<td></td>
-</tr>
-<tr>
-<td><code>Content-Type</code></td>
-<td><code class="required"></code></td>
-<td>&quot;application/json&quot;</td>
-<td></td>
-</tr>
 <tr>
 <td><code>Authorisation</code></td>
 <td><code class="required"></code></td>
@@ -312,43 +376,82 @@ curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
 </tr>
 </tbody>
 </table>
-<h3 id="payload-options">Payload Options</h3>
+<blockquote>
+<h3 id="-code-class-response-201-code-response"><code class="response">201</code> Response</h3>
+</blockquote>
+<pre class="highlight json"><code>
+{
+        <span class="hljs-attr">"token"</span>: <span class="hljs-string">"&lt;-- jwt hashed token --&gt;"</span>,
+        <span class="hljs-attr">"data"</span>: {
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"&lt;-- user id --&gt;"</span>,
+                <span class="hljs-attr">"username"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
+                <span class="hljs-attr">"email"</span>: <span class="hljs-string">"&lt;-- user email address --&gt;"</span>,
+                <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+                <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-05T08:18:51.612Z"</span>,
+                <span class="hljs-attr">"belongsTo"</span>: [... &lt;-- array of organisation domains that user is associated to --&gt;],
+                <span class="hljs-attr">"integrations"</span>: [... &lt;-- array of services that user has enabled --&gt;]
+                ...
+        }
+}
+</code></pre>
+<blockquote>
+<p>Above is the typical response you will get after a successful user authentication. Please note that the response may contain more data properties than what is shown and the user must have activated their account first</p>
+<h3 id="-code-class-response-401-code-response"><code class="response">401</code> Response</h3>
+</blockquote>
+<pre class="highlight json"><code>{
+        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"NotAuthenticated"</span>,
+        <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Not Activated"</span>,
+        <span class="hljs-attr">"code"</span>: <span class="hljs-number">401</span>,
+        <span class="hljs-attr">"className"</span>: <span class="hljs-string">"not-authenticated"</span>,
+        <span class="hljs-attr">"errors"</span>: {}
+}
+</code></pre>
+<aside class="response">Response</aside>
+
 <table>
 <thead>
 <tr>
 <th></th>
-<th>Required</th>
+<th>Type</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td><code>token</code></td>
+<td><strong>String</strong></td>
+<td>The authenticated login token returned that can be used for all subsequent calls</td>
+</tr>
+<tr>
+<td><code>data._id</code></td>
+<td><strong>String</strong></td>
+<td>The ID of the newly registered user</td>
+</tr>
+<tr>
+<td><code>data.username</code></td>
+<td><strong>String</strong></td>
+<td>The username of the user. <strong>This is currently automatically assigned the email address</strong></td>
+</tr>
+<tr>
+<td><code>data.email</code></td>
+<td><strong>String</strong></td>
+<td>The email address registered</td>
+</tr>
+<tr>
+<td><code>data.belongsTo</code></td>
+<td><strong>[Object]</strong></td>
+<td>An array of organisations that the user belongs to containing a <code>domain</code> and <code>domainId</code> key</td>
+</tr>
+<tr>
+<td><code>data.integrations</code></td>
+<td><strong>[Object]</strong></td>
+<td>An array of services/integrations that the user is able to access or has enabled. This lists out the ....</td>
 </tr>
 </tbody>
 </table>
-<h3 id="query-options">Query Options</h3>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Required</th>
-<th>Possible Values</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+<aside class="info">The above properties are just some of the properties that may be returned. Call the API endpoint to find and investigate the remaning properties that get returned</aside>
+
+
 <h1 id="errors">Errors</h1>
 <blockquote>
 <p>Below is the typical structure of a JSON error response</p>
@@ -442,7 +545,6 @@ curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
             <div class="dark-box">
                 <div class="lang-selector">
                         <a href="#" data-language-name="bash">bash</a>
-                        <a href="#" data-language-name="javascript">javascript</a>
                 </div>
             </div>
         </div>

@@ -41,6 +41,7 @@ $bg-code-color: #f3f6fb;
 $brd-color: #dfe2e7;
 $color: #9090aa;
 $theme-color: #c72e53;
+$secondary-color: #FFC300;
 
 ////////
 
@@ -139,20 +140,63 @@ a {
         }
 }
 
-code.required {
-        background-color: transparent;
-        color: $theme-color;
+code {
+        &.required {
+                background-color: transparent;
+                color: $theme-color;
 
-        &:before {
-                font-family: 'slate';
-                content: "\e606";
+                &:before {
+                        font-family: 'slate';
+                        content: "\e606";
+                }
+        }
+
+        &.response {
+                background-color: transparent;
+                color: $secondary-color;
         }
 }
 
 .tocify-header {
         &:last-child li a {
-                    background-color: #FFC300;
+                    background-color: $secondary-color;
                     color: #fff !important;
                     font-weight: 600 !important;
+        }
+}
+
+aside {
+        &.request,
+        &.response {
+                background: $brd-color;
+                text-shadow: none;
+        }
+        &.warning.text {
+                background-color: transparent;
+                color: $theme-color;
+                text-shadow: none;
+                font-weight: 600;
+        }
+}
+
+.content table {
+        width: 47%;
+        display: table;
+        margin-left: 2em;
+
+        & tbody td {
+                font-size: .8em;
+                vertical-align: middle;
+
+                & strong {
+                        font-size: 1.35em;
+                        color: $theme-color;
+                }
+
+                & code {
+                        font-weight: 600;
+                        padding: 0.3em 1.4em;
+                        text-align: center;
+                }
         }
 }
