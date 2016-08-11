@@ -1423,6 +1423,12 @@ aside.warning.text {
   text-shadow: none;
   font-weight: 600; }
 
+aside.todo.text {
+  background-color: #FFC300;
+  color: #892039;
+  text-shadow: none;
+  font-weight: 600; }
+
 .content table {
   width: 47%;
   display: table;

@@ -15,6 +15,11 @@ includes:
   - user-authentication
   - institution
   - institution-create
+  - integrations
+  - integrations-create
+  - integrations-read
+  - integrations-update
+  - integrations-delete
   - errors
   - notes
 

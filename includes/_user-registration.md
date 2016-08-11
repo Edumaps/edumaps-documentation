@@ -15,7 +15,7 @@ This includes access to the main application, the API and any other services tha
 
 ```bash
 # This is the call to authenticate a user
-curl "<-- endpoint here -->/auth/local"
+curl "<-- endpoint here -->/signup"
         -H "Accept: application/json"
         -H "Content-Type: application/json"
         -d "email: <-- user's email address -->"

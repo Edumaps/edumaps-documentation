@@ -2,77 +2,12 @@
 
 # Integrations
 
-## Get All Integrations
+Integrations or third-party applications as they can be known come in different flavours. There are three types of integrations that can be used with Edumaps. These are:
 
-```bash
-curl "http://example.com/api/integrations"
-  -H "Authorization: q2sdaadsfsdf90qsqsqkjfds!dfewqkjr2344e5<"
-```
+* Independent oAuth (Authorisation Grant) Applications
+* Embedded Web Applications
+* Microservice APIs & Service Calls
 
-```javascript
+They come in different contexts too, whether they are owned by the organisation or a user, whether it is public, private or [protected]() or whether as an embedded web application should the context fall under the category of a production application, management/systen administration application or backend service that listens out for events.
 
-```
 
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Uploader"
-  },
-  {
-    "id": 2,
-    "name": "Parser"
-  }
-]
-```
-
-This endpoint retrieves all available integrations.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_all | false | If set to true, the result will also include all third-party integrations.
-available | true | If set to false, the result will include integrations that have already been enabled by the authenticated user.
-
-<aside class="success">
-Remember — a happy user is an authenticated user!
-</aside>
-
-## Get a Specific Integratation
-
-```bash
-curl "http://example.com/api/integrations/2"
-  -H "Authorization: q2sdaadsfsdf90qsqsqkjfds!dfewqkjr2344e5<"
-```
-
-```javascript
-
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Parser"
-}
-```
-
-This endpoint retrieves a specific integration.
-
-### HTTP Request
-
-`GET http://example.com/integration/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the integration to retrieve

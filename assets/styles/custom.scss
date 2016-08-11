@@ -177,6 +177,12 @@ aside {
                 text-shadow: none;
                 font-weight: 600;
         }
+        &.todo.text {
+                background-color: $secondary-color;
+                color: darken($theme-color, 15%);
+                text-shadow: none;
+                font-weight: 600;
+        }
 }
 
 .content table {

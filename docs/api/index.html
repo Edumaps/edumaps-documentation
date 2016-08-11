@@ -66,7 +66,7 @@
 <h3 id="-code-class-response-curl-code-request"><code class="response">CURL</code> Request</h3>
 </blockquote>
 <pre class="highlight bash"><code><span class="hljs-comment"># This is the call to authenticate a user</span>
-curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/auth/local"</span>
+curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/signup"</span>
         -H <span class="hljs-string">"Accept: application/json"</span>
         -H <span class="hljs-string">"Content-Type: application/json"</span>
         <span class="hljs-_">-d</span> <span class="hljs-string">"email: &lt;-- user's email address --&gt;"</span>
@@ -524,6 +524,289 @@ curl -X POST <span class="hljs-string">"&lt;-- endpoint here --&gt;/institution"
 </tr>
 </tbody>
 </table>
+<h1 id="integrations">Integrations</h1>
+<p>Integrations or third-party applications as they can be known come in different flavours. There are three types of integrations that can be used with Edumaps. These are:</p>
+<ul>
+<li>Independent oAuth (Authorisation Grant) Applications</li>
+<li>Embedded Web Applications</li>
+<li>Microservice APIs &amp; Service Calls</li>
+</ul>
+<p>They come in different contexts too, whether they are owned by the organisation or a user, whether it is public, private or <a href="">protected</a> or whether as an embedded web application should the context fall under the category of a production application, management/systen administration application or backend service that listens out for events.</p>
+<h2 id="create">Create</h2>
+<aside class="endpoint">
+        <code>POST</code> /integration
+</aside>
+
+<p>The <strong>integration</strong> endpoint allows users to register a new application/integration to be run within the Edumaps ecosystem.</p>
+<blockquote>
+<h3 id="-code-class-response-curl-code-request"><code class="response">CURL</code> Request</h3>
+</blockquote>
+<pre class="highlight bash"><code><span class="hljs-comment"># This is the call to authenticate a user</span>
+curl <span class="hljs-string">"&lt;-- endpoint here --&gt;/integration"</span>
+        -H <span class="hljs-string">"Accept: application/json"</span>
+        -H <span class="hljs-string">"Content-Type: application/json"</span>
+        -H <span class="hljs-string">"Authorisation: &lt;-- token here --&gt;"</span>
+        -H <span class="hljs-string">"Domain: &lt;-- domain token here --&gt;"</span>
+        <span class="hljs-_">-d</span> ... see request data options
+</code></pre>
+<aside class="request">Request</aside>
+
+<h3 id="payload-options">Payload Options</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>email</code></td>
+<td><strong>String</strong></td>
+<td><code class="required"></code></td>
+<td>Registered user&#39;s email address</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>access</code></td>
+<td><strong>String</strong></td>
+<td></td>
+<td>This flag defines who can access and enable your app. Private is the owner (user) only, protected is for all users within the same organisation and public is accessible by all users.</td>
+<td><code>private</code></td>
+<td><code>private</code> <code>protected</code> <code>public</code></td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td><strong>String</strong></td>
+<td><code class="required"></code></td>
+<td>Enter the home url of your application / integration</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td><strong>String</strong></td>
+<td></td>
+<td>This determines which area of the core Edumaps application the integration will appear</td>
+<td><code>stage</code></td>
+<td><code>config</code> <code>stage</code></td>
+</tr>
+<tr>
+<td><code>redirect</code></td>
+<td><strong>String</strong></td>
+<td><code class="required"></code></td>
+<td>This is location of your app that retrieves the authorisation grant token</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><strong>String</strong></td>
+<td><code class="required"></code></td>
+<td>Name your integration</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>icon</code></td>
+<td><strong>String</strong></td>
+<td></td>
+<td>If you wish an icon to be shown to represent your integration then include the URL here. 128 x 128 is best size for the Edumaps application and is resized accordingly from there</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td><strong>String</strong></td>
+<td></td>
+<td>Category determines whether this is a third-party application or a Edumaps Core Integration</td>
+<td><code>3Party</code></td>
+<td><code>3Party</code> <code>Core</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<h3 id="-code-class-response-201-code-response"><code class="response">201</code> Response</h3>
+</blockquote>
+<pre class="highlight json"><code>{
+        <span class="hljs-attr">"access"</span>: <span class="hljs-string">"protected"</span>,
+        <span class="hljs-attr">"url"</span>: <span class="hljs-string">"http://localhost:3030"</span>,
+        <span class="hljs-attr">"redirect"</span>: <span class="hljs-string">"http://localhost:3030/-/success"</span>,
+        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"My First App"</span>,
+        <span class="hljs-attr">"domain"</span>: <span class="hljs-string">"57a44beb37b3d9617ba11edd"</span>,
+        <span class="hljs-attr">"owner"</span>: <span class="hljs-string">"57a9d3762dbff34cf00de6e0"</span>,
+        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"57ac6eb976cbd3c33fb51a8d"</span>,
+        <span class="hljs-attr">"context"</span>: <span class="hljs-string">"stage"</span>,
+        <span class="hljs-attr">"category"</span>: <span class="hljs-string">"3Party"</span>
+}
+</code></pre>
+<aside class="response">Response</aside>
+
+<p>An expected successful response should result in a <strong><code>201</code></strong> header response.</p>
+<h2 id="get-all">Get All</h2>
+<aside class="endpoint">
+        <code>GET</code> /integrations
+</aside>
+
+<p>The <strong>integrations</strong> endpoint is quite flexible in that it retrieves all integrations (that a user can have access to) or accepts search parameters to fetch integrations that you are looking for.</p>
+<p>By default all returned integrations are restricted to return only the following for the logged in user:</p>
+<ol>
+<li>If the application is owned by the logged in user</li>
+<li>If the application is set to protected and the user belongs in the domain</li>
+<li>If the application is set to public access</li>
+</ol>
+<p>From here, a user can search for integrations and install them</p>
+<aside class="todo text">
+        <h3>TODO</h3>
+        <ul>
+                <li>Add roles support - allow app administrators to search for applications that are part of the domain yet private to somebody else as well as the above</li>
+                <li>Add owner name to output</li>
+                <li>Add domain name to output</li>
+                <li>Add boolean installed to output for user to see if app installed - linked to the user integrations collection</li>
+        </ul>
+</aside>
+
+
+<blockquote>
+<h3 id="-code-class-response-curl-code-request"><code class="response">CURL</code> Request</h3>
+</blockquote>
+<pre class="highlight bash"><code>
+curl -X GET <span class="hljs-string">"&lt;-- endpoint here --&gt;/integrations"</span>
+        -H <span class="hljs-string">"Accept: application/json"</span>
+        -H <span class="hljs-string">"Content-Type: application/json"</span>
+        -H <span class="hljs-string">"Authorisation: &lt;-- token here --&gt;"</span>
+        -H <span class="hljs-string">"Domain: &lt;-- domain token here --&gt;"</span>
+</code></pre>
+<blockquote>
+<p>Remember to replace <code>&lt;-- token here --&gt;</code> &amp; <code>&lt;-- domain token here --&gt;</code> with your user authenticated token and domain selected token</p>
+</blockquote>
+<aside class="request">Request</aside>
+
+<h3 id="query-options">Query Options</h3>
+<p>These options are added to the endpoint such as <code>...?fieldName=test&amp;$limit=10</code></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+<th>Default</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fieldName</code></td>
+<td><strong>String</strong></td>
+<td></td>
+<td>Any field name within the collection can be passed in here</td>
+<td></td>
+<td>See the response example</td>
+</tr>
+<tr>
+<td><code>$limit</code></td>
+<td><strong>Integer</strong></td>
+<td></td>
+<td>Limit the result set by this amount. This is a part of pagination</td>
+<td><code>15</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$skip</code></td>
+<td><strong>Integer</strong></td>
+<td></td>
+<td>Skip through a number of records. Use this to navigate to paged result. This is a part of pagination</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$sort</code></td>
+<td><strong>Object</strong></td>
+<td></td>
+<td>List the field by which sorting should apply and the direction whether it should ASC or DESC. Example <code>..&amp;$sort={name: 1}</code>. 1 is for ascending and -1 is for descending. Multiple values can be passed in</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>$select[]</code></td>
+<td><strong>Array</strong></td>
+<td></td>
+<td>Return only a subset of fields. Example <code>...&amp;$select[]=name,access</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<h3 id="-code-class-response-200-code-response"><code class="response">200</code> Response</h3>
+</blockquote>
+<pre class="highlight json"><code>{
+        <span class="hljs-attr">"total"</span>: <span class="hljs-number">2</span>,
+        <span class="hljs-attr">"limit"</span>: <span class="hljs-number">10</span>,
+        <span class="hljs-attr">"skip"</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">"data"</span>: [
+                {
+                        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"57ac6af1b5a3923c3daca930"</span>,
+                        <span class="hljs-attr">"access"</span>: <span class="hljs-string">"protected"</span>,
+                        <span class="hljs-attr">"url"</span>: <span class="hljs-string">"http://localhost:3030"</span>,
+                        <span class="hljs-attr">"context"</span>: <span class="hljs-string">"stage"</span>,
+                        <span class="hljs-attr">"redirect"</span>: <span class="hljs-string">"http://localhost:3030/-/success"</span>,
+                        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"My First App"</span>,
+                        <span class="hljs-attr">"domain"</span>: <span class="hljs-string">"57a44beb37b3d9617ba11edd"</span>,
+                        <span class="hljs-attr">"owner"</span>: <span class="hljs-string">"57a9d3762dbff34cf00de6e0"</span>,
+                        <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-11T12:09:21.883Z"</span>,
+                        <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-11T12:09:21.883Z"</span>,
+                        <span class="hljs-attr">"appType"</span>: <span class="hljs-string">"3Party"</span>
+                },
+                {
+                        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"57ac6df210b47d6e3e80b0a7"</span>,
+                        <span class="hljs-attr">"access"</span>: <span class="hljs-string">"protected"</span>,
+                        <span class="hljs-attr">"url"</span>: <span class="hljs-string">"http://localhost:3030"</span>,
+                        <span class="hljs-attr">"context"</span>: <span class="hljs-string">"config"</span>,
+                        <span class="hljs-attr">"redirect"</span>: <span class="hljs-string">"http://localhost:3030/-/success"</span>,
+                        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"My Second App"</span>,
+                        <span class="hljs-attr">"domain"</span>: <span class="hljs-string">"57a44beb37b3d9617ba11edd"</span>,
+                        <span class="hljs-attr">"owner"</span>: <span class="hljs-string">"57a9d3762dbff34cf00de6e0"</span>,
+                        <span class="hljs-attr">"updatedAt"</span>: <span class="hljs-string">"2016-08-11T12:22:10.609Z"</span>,
+                        <span class="hljs-attr">"createdAt"</span>: <span class="hljs-string">"2016-08-11T12:22:10.609Z"</span>,
+                        <span class="hljs-attr">"appType"</span>: <span class="hljs-string">"3Party"</span>,
+                }
+        ]
+}
+</code></pre>
+<aside class="response">Response</aside>
+
+<p>An expected successful response should result in a <strong><code>200</code></strong> header response.</p>
+<h2 id="get-single">Get Single</h2>
+<aside class="endpoint">
+        <code>GET</code> /integration/:id
+</aside>
+
+<aside class="warning text">This is not implemented yet</aside>
+
+
+<h2 id="update">Update</h2>
+<aside class="endpoint">
+        <code>PUT</code> /integration/:id
+</aside>
+
+<aside class="warning text">This is not implemented yet</aside>
+
+
+<h2 id="delete">Delete</h2>
+<aside class="endpoint">
+        <code>DELETE</code> /integration/:id
+</aside>
+
+<aside class="warning text">This is not implemented yet</aside>
+
+
 <h1 id="errors">Errors</h1>
 <blockquote>
 <p>Below is the typical structure of a JSON error response</p>
