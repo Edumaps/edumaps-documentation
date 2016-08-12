@@ -40,33 +40,51 @@ const gulp = require("gulp"),
 
 runLiveDocs = true;
 
-/**
-*       Create Documentation from Internal JS Files
-*/
-gulp.task('api-docs-clean', function(cb) {
-        return gulp.src('docs/api/', {read: false}).pipe(clean());
-});
 
-gulp.task("api-docs", ["api-docs-clean"], function (cb) {
+
+
+
+
+gulp.task("api-docs", ["docs-clean"], function (cb) {
         return gulp.src([
-                        'index.html.md'
+                        paths.src + '/api/index.html.md'
                 ])
                 .pipe(slate({
-                        logo: "assets/images/logo.png",
-                        scss: "assets/styles/custom.scss",
+                        logo: paths.src + "/api/assets/images/logo.png",
+                        scss: paths.src + "/api/assets/styles/custom.scss",
                         style: "solarized-dark"
                 }))
                 .pipe(gulp.dest('docs/api/'));
-
 });
+
+gulp.task('docs-clean', function(cb) {
+        return gulp.src('docs/', {read: false}).pipe(clean());
+});
+
+gulp.task("portal-docs", function (cb) {
+        return gulp.src([
+                        paths.src + '/portal/*',
+                        paths.src + '/portal/**/*',
+                        paths.src + '/portal/**/**/*'
+                ])
+                .pipe(gulp.dest('docs/portal/'));
+});
+
+
+
+gulp.task('build-docs', function(cb) {
+        runSequence('docs-clean', 'api-docs', 'portal-docs', cb);
+});
+
+
 
 
 
 gulp.task('nodemon', function(cb) {
         var called = false;
         return nodemon({
-                script: 'docs.js',
-                watch: ['assets/**/*.*', 'assets/*.*', 'includes/*.*', 'index.html.md']
+                script: 'server.js',
+                watch: [paths.src + '/**/*.*', paths.src + '/**/**/*.*', paths.src + '/**/**/**/*.*']
         })
         .on('start', function onStart() {
                 if (!called) {
@@ -75,7 +93,7 @@ gulp.task('nodemon', function(cb) {
                 called = true;
         })
         .on('restart', function onRestart() {
-                gulp.run("api-docs", function(){
+                gulp.run("build-docs", function(){
                         setTimeout(function reload() {
                                 runLiveDocs = false;
                                 browserSync.reload({
@@ -86,7 +104,7 @@ gulp.task('nodemon', function(cb) {
         });
 });
 
-gulp.task('run', ['api-docs', 'nodemon'], function() {
+gulp.task('run', ['build-docs', 'nodemon'], function() {
         browserSync.init({
                 files: ['docs/**/*.*'],
                 proxy: 'http://localhost:' + 8080,
