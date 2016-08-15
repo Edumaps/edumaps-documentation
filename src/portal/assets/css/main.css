@@ -20,7 +20,53 @@
 
 .actionBtns a.btn:hover {
         cursor: pointer;
-        border: 3px solid #bf9293;
+        border: 3px solid #C72E53;
         color: white;
-        background-color: #bf9293;
+        background-color: #C72E53;
+}
+
+.list-group, .list-group button {
+        width: 100%;
+        text-align: left;
+}
+
+.list-group button {
+        padding: 30px;
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #999;
+        -moz-transition: all .5s ease-out;
+        -o-transition: all .5s ease-out;
+        -webkit-transition: all .5s ease-out;
+        transition: all .5s ease-out;
+}
+
+.list-group button:hover {
+        cursor: pointer;
+        color: #C72E53;
+        -moz-transition: all .5s ease-in;
+        -o-transition: all .5s ease-in;
+        -webkit-transition: all .5s ease-in;
+        transition: all .5s ease-in;
+}
+
+
+.material-icons {
+        margin-right: .5em;
+        vertical-align: middle;
+}
+
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+.logo {
+        background: url(/assets/images/logo.png) no-repeat top center;
+        text-indent: -9999px;
+        width: 100%;
+        height: 171px;
+        background-size: 350px 171px;
+        margin: 0;
+        margin-bottom: 15px;
 }
