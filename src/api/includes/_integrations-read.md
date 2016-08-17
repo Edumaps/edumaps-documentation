@@ -33,8 +33,8 @@ From here, a user can search for integrations and install them
 curl -X GET "<-- endpoint here -->/integrations"
         -H "Accept: application/json"
         -H "Content-Type: application/json"
-        -H "Authorisation: <-- token here -->"
-        -H "Domain: <-- domain token here -->"
+        -H "Authorisation: <-- jwt token -->"
+        -H "Domain: <-- jwt domain token -->"
 ```
 
 > Remember to replace `<-- token here -->` & `<-- domain token here -->` with your user authenticated token and domain selected token

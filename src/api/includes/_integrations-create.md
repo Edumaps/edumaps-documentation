@@ -15,8 +15,8 @@ The **integration** endpoint allows users to register a new application/integrat
 curl "<-- endpoint here -->/integration"
         -H "Accept: application/json"
         -H "Content-Type: application/json"
-        -H "Authorisation: <-- token here -->"
-        -H "Domain: <-- domain token here -->"
+        -H "Authorisation: <-- jwt token -->"
+        -H "Domain: <-- jwt domain token -->"
         -d ... see request data options
 ```
 

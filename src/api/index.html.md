@@ -13,8 +13,10 @@ includes:
   - user
   - user-registration
   - user-authentication
+  - user-read
   - institution
   - institution-create
+  - institution-read
   - integrations
   - integrations-create
   - integrations-read

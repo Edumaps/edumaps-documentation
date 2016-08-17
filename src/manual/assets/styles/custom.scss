@@ -72,6 +72,21 @@ body, td, textarea, input {
         h2 {
                 display: none;
         }
+
+        & > h1,
+        & > h2,
+        & > h3,
+        & > h4,
+        & > h5,
+        & > h6,
+        & > p,
+        & > table,
+        & > ul,
+        & > ol,
+        & > aside,
+        & > dl {
+                margin-right: 10%;
+        }
 }
 
 .toc-footer li {
@@ -212,4 +227,9 @@ aside {
                         text-align: center;
                 }
         }
+}
+
+.dark-box {
+        display: none;
+        width: 0;
 }

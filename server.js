@@ -4,6 +4,7 @@ var app = express();
 
 app.use("/", express.static("docs/portal/"));
 app.use("/api", express.static("docs/api/"));
+app.use("/manual", express.static("docs/manual/"));
 
 
 // app.get('/', function(req, res){

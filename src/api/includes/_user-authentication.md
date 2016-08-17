@@ -75,6 +75,10 @@ You must pass in the request body **`email`** and **`password`**.
 `data.belongsTo` | **[Object]** | An array of organisations that the user belongs to containing a `domain` and `domainId` key
 `data.integrations` | **[Object]** | An array of services/integrations that the user is able to access or has enabled. This lists out the ....
 
+#### [Important Usage Notes](#important-usage-notes)
+
+<aside class="warning text">Every subsequent call that requires an authenticated user also requires a domain selection. See the Important Usage Notes section for details</aside>
+
 <aside class="info">The above properties are just some of the properties that may be returned. Call the API endpoint to find and investigate the remaning properties that get returned</aside>
 
 ## Token
@@ -83,7 +87,7 @@ You must pass in the request body **`email`** and **`password`**.
         <code>POST</code> /auth/token
 </aside>
 
-Edumaps API allows for token based access in order for users to allow third-party apps to log in and access the user data. This is not to be confused with oAuth permissions. It is also a means to re-authenticating and retriving the current user data of the user if this has been mutated in anyway since their last login. This endpoint can be used as a means to bypass requring the user to enter their credentials everytime.
+Edumaps API allows for token based access in order for users to allow third-party apps to log in and access the user data. This is not to be confused with oAuth permissions. It is also a means to re-authenticating and retrive the current user data of the user if this has been mutated locally in anyway since their last login. This endpoint can be used as a means to bypass requring the user to enter their credentials everytime.
 
 > ### <code class="response">CURL</code> Request
 
@@ -150,4 +154,5 @@ Edumaps API allows for token based access in order for users to allow third-part
 `data.integrations` | **[Object]** | An array of services/integrations that the user is able to access or has enabled. This lists out the ....
 
 <aside class="info">The above properties are just some of the properties that may be returned. Call the API endpoint to find and investigate the remaning properties that get returned</aside>
+
 

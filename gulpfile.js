@@ -45,7 +45,7 @@ runLiveDocs = true;
 
 
 
-gulp.task("api-docs", ["docs-clean"], function (cb) {
+gulp.task("api-docs", function (cb) {
         return gulp.src([
                         paths.src + '/api/index.html.md'
                 ])
@@ -55,6 +55,18 @@ gulp.task("api-docs", ["docs-clean"], function (cb) {
                         style: "solarized-dark"
                 }))
                 .pipe(gulp.dest('docs/api/'));
+});
+
+gulp.task("manual-docs", function (cb) {
+        return gulp.src([
+                        paths.src + '/manual/index.html.md'
+                ])
+                .pipe(slate({
+                        logo: paths.src + "/manual/assets/images/logo.png",
+                        scss: paths.src + "/manual/assets/styles/custom.scss",
+                        style: "solarized-dark"
+                }))
+                .pipe(gulp.dest('docs/manual/'));
 });
 
 gulp.task('docs-clean', function(cb) {
@@ -73,7 +85,7 @@ gulp.task("portal-docs", function (cb) {
 
 
 gulp.task('build-docs', function(cb) {
-        runSequence('docs-clean', 'api-docs', 'portal-docs', cb);
+        runSequence('docs-clean', 'api-docs', 'manual-docs', 'portal-docs', cb);
 });
 
 
