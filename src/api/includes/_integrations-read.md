@@ -98,10 +98,6 @@ These options are added to the endpoint such as `...?fieldName=test&$limit=10`
 An expected successful response should result in a **`200`** header response.
 
 
-
-
-
-
 ## Get Single
 
 <aside class="endpoint">
@@ -109,4 +105,45 @@ An expected successful response should result in a **`200`** header response.
 </aside>
 
 <aside class="warning text">This is not implemented yet</aside>
+
+
+
+
+
+
+## Get User Enabled Integrations
+
+<aside class="endpoint">
+        <code>GET</code> /integrations/enabled
+</aside>
+
+This fetches all the user enabled integrations that do not form part of the core integration status (i.e. any thrid-party enabled apps).
+
+> ### <code class="response">CURL</code> Request
+
+```bash
+
+curl -X GET "<-- endpoint here -->/integrations/enabled"
+        -H "Accept: application/json"
+        -H "Content-Type: application/json"
+```
+
+<aside class="request">Request</aside>
+
+> ### <code class="response">200</code> Response
+
+```json
+{
+        "_id": "57b5cdbdb2afaf09d77cea6b",
+        "name": "My First App",
+        "url": "http://localhost:3030",
+        "icon": null
+}
+```
+
+<aside class="response">Response</aside>
+
+An expected successful response should result in a **`200`** header response with a url property that can be used to embed an app if it conforms to using the [HTML5 Post Messaging API](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage).
+
+
 

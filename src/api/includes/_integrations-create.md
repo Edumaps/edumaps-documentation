@@ -58,3 +58,69 @@ curl "<-- endpoint here -->/integration"
 An expected successful response should result in a **`201`** header response.
 
 
+
+## Enable an Integration
+
+<aside class="endpoint">
+        <code>POST</code> /app/code/:id
+</aside>
+
+This enables an integration for the logged in user and creates a new access authorisation code on behalf of that integration for that user.
+
+
+> ### <code class="response">CURL</code> Request
+
+```bash
+        curl -X POST "<-- endpoint here -->/app/code/:id"
+                -H "Accept: application/json"
+                -H "Content-Type: application/json"
+```
+
+> Remember to replace `:id` with the integration id which can be obtained from a lookup to [GET /integrations](#integrations)
+
+<aside class="request">Request</aside>
+
+
+> ### <code class="response">201</code> Response
+
+```json
+{
+        "code": "jwt token"
+}
+```
+
+<aside class="response">Response</aside>
+
+An expected successful response should result in a **`201`** header response.
+
+## Disable an Integration
+
+<aside class="endpoint">
+        <code>DELETE</code> /app/code/:codeid
+</aside>
+
+This disables an integration for the logged in user.
+
+
+> ### <code class="response">CURL</code> Request
+
+```bash
+        curl -X DELETE "<-- endpoint here -->/app/code/:codeid"
+                -H "Accept: application/json"
+                -H "Content-Type: application/json"
+```
+
+> Remember to replace `:codeid` with the id of the enabled integration - not the integration id. These IDs can be obtained from a lookup to [GET /integrations/enabled](#integrations)
+
+<aside class="request">Request</aside>
+
+
+> ### <code class="response">200</code> Response
+
+```json
+{}
+```
+
+<aside class="response">Response</aside>
+
+

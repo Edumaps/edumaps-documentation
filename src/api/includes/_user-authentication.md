@@ -11,7 +11,7 @@ Use this endpoint to log in a user.
 
 ```bash
 # This is the call to authenticate a user
-curl "<-- endpoint here -->/auth/local"
+curl "<-- endpoint here -->/auth/login"
         -H "Accept: application/json"
         -H "Content-Type: application/json"
         -d "email: <-- user's email address -->"
@@ -79,7 +79,48 @@ You must pass in the request body **`email`** and **`password`**.
 
 <aside class="warning text">Every subsequent call that requires an authenticated user also requires a domain selection. See the Important Usage Notes section for details</aside>
 
-<aside class="info">The above properties are just some of the properties that may be returned. Call the API endpoint to find and investigate the remaning properties that get returned</aside>
+<aside class="info">The above properties are just some of the properties that may be returned. Call the API endpoint to find and investigate the remaning properties and response headers that get returned</aside>
+
+<h3><aside class="warning text">Once a login is established a server session cookie is created (valid for 1 day). This means that you can also omit the <code>Authorisation</code> & <code>Domain</code> tokens if you send through a <code>Cookie</code> header or if your browser automatically sends this through in the format of <code>connect.sid=<-- token here --></code></aside></h3>
+
+## Logout
+
+<aside class="endpoint">
+        <code>GET</code> /auth/logout
+</aside>
+
+Use this endpoint to log in a user.
+
+> ### <code class="response">CURL</code> Request
+
+```bash
+# This is the call to authenticate a user
+curl -X GET "<-- endpoint here -->/auth/logout"
+        -H "Accept: application/json"
+        -H "Content-Type: application/json"
+        -d "Cookie: <-- user's session cookie -->"
+```
+
+<aside class="request">Request</aside>
+
+You must pass in the session but your browser (if connecting through a browser may already send this through.
+
+### Header Options
+
+  | Required | Expected Value | Description
+- | -------- | -------------- | -----------
+`Cookie` | <code class="required"></code>| cookie value `connect.sid=...` | The session cookie to invalidate
+
+
+> ### <code class="response">200</code> Response
+
+```json
+
+{}
+```
+
+<aside class="response">Response</aside>
+
 
 ## Token
 
@@ -155,4 +196,40 @@ Edumaps API allows for token based access in order for users to allow third-part
 
 <aside class="info">The above properties are just some of the properties that may be returned. Call the API endpoint to find and investigate the remaning properties that get returned</aside>
 
+
+
+## Select Domain
+
+<aside class="endpoint">
+        <code>GET</code> /domain
+</aside>
+
+A Domain doesn't have to be forcibly selected and instead can be passed in on every API call as a `Domain` header. However, using this endpoint forcibly integrates the user logged session to acquire knowledge of the currently selected domain for the user thus allowing integration apps to more seemlessly obtain access on bbehalf of the user as the user session alrewady contains the authorisation token and domain selection token.
+
+> ### <code class="response">CURL</code> Request
+
+```bash
+        curl -X GET "<-- endpoint here -->/domain"
+                -H "Accept: application/json"
+                -H "Content-Type: application/json"
+                -H "Domain: <-- jwt token -->"
+```
+
+<aside class="request">Request</aside>
+
+### Header Options
+
+  | Required | Expected Value | Description
+- | -------- | -------------- | -----------
+`Domain` | <code class="required"></code>| a jwt token | a valid jwt token must be passed in to select the domain login for the user.
+
+
+> ### <code class="response">200</code> Response
+
+```json
+
+{}
+```
+
+<aside class="response">Response</aside>
 
